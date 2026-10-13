@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { gsap } from "@/lib/gsap";
 import { motion } from "@/lib/motion";
 
@@ -42,15 +42,13 @@ const subscribeReduced = (onChange: () => void) => {
 export function IconCloud({ icons, className }: { icons: readonly CloudIcon[]; className?: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  // Reduced motion starts the cloud paused; the button overrides either way.
+  // With reduced motion the cloud holds still; drag and click still work.
   const reduced = useSyncExternalStore(subscribeReduced, () => window.matchMedia(REDUCED).matches, () => false);
-  const [choice, setChoice] = useState<boolean | null>(null);
-  const paused = choice ?? reduced;
-  const pausedRef = useRef(paused);
+  const pausedRef = useRef(reduced);
 
   useEffect(() => {
-    pausedRef.current = paused;
-  }, [paused]);
+    pausedRef.current = reduced;
+  }, [reduced]);
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -257,27 +255,13 @@ export function IconCloud({ icons, className }: { icons: readonly CloudIcon[]; c
   }, [icons]);
 
   return (
-    <div className={["icon-cloud-wrap", className].filter(Boolean).join(" ")}>
-      <div ref={wrapRef} className="icon-cloud">
-        <canvas
-          ref={canvasRef}
-          className="icon-cloud__canvas"
-          role="img"
-          aria-label={`Technologies: ${icons.map((icon) => icon.label).join(", ")}`}
-        />
-      </div>
-      <button
-        type="button"
-        onClick={() => setChoice(!paused)}
-        className="pill icon-cloud__toggle"
-        data-variant="outline"
-        data-size="sm"
-      >
-        <span className="pill__label">
-          {paused ? "Play" : "Pause"}
-          <span className="sr-only"> icon cloud rotation</span>
-        </span>
-      </button>
+    <div ref={wrapRef} className={["icon-cloud", className].filter(Boolean).join(" ")}>
+      <canvas
+        ref={canvasRef}
+        className="icon-cloud__canvas"
+        role="img"
+        aria-label={`Technologies: ${icons.map((icon) => icon.label).join(", ")}`}
+      />
     </div>
   );
 }

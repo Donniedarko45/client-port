@@ -5,8 +5,12 @@ import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode }
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 type ScrollApi = {
-  /** Scrolls to an element, a selector such as "#about", or a pixel offset. */
-  scrollTo: (target: HTMLElement | string | number) => void;
+  /**
+   * Scrolls to an element, a selector such as "#about", or a pixel offset.
+   * `immediate` jumps without easing — for scrubbing, where the pointer is
+   * already doing the smoothing.
+   */
+  scrollTo: (target: HTMLElement | string | number, options?: { immediate?: boolean }) => void;
   /** Freezes page scroll, e.g. while the mobile menu is open. */
   lock: (locked: boolean) => void;
 };
@@ -29,8 +33,8 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
 
   const api = useMemo<ScrollApi>(
     () => ({
-      scrollTo(target) {
-        lenisRef.current?.scrollTo(target, { force: true });
+      scrollTo(target, options) {
+        lenisRef.current?.scrollTo(target, { force: true, immediate: options?.immediate });
       },
       lock(locked) {
         const lenis = lenisRef.current;

@@ -392,6 +392,280 @@
     }
   }
 
+  /* ── Timeline nav: the page as a strip of clips with a playhead ─────── */
+
+  .tl {
+    position: relative;
+    height: 40px;
+    max-width: 780px;
+    margin-inline: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .tl[data-scrubbing="true"],
+  .tl[data-scrubbing="true"] * {
+    cursor: grabbing;
+  }
+
+  /* Tick marks along the bottom, like an editor's time ruler. */
+  .tl__ruler {
+    position: absolute;
+    inset: auto 0 0;
+    height: 5px;
+    background: repeating-linear-gradient(to right, var(--hairline-strong) 0 1px, transparent 1px 10px);
+    mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  }
+
+  .tl__clips,
+  .tl__played {
+    position: absolute;
+    inset: 3px 0 11px;
+  }
+
+  /* Everything already scrolled past is tinted, like played footage. */
+  .tl__played {
+    border-radius: var(--radius-sm);
+    background: linear-gradient(to right, var(--accent-subtle), var(--accent-ring));
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    pointer-events: none;
+  }
+
+  .tl__clip {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    overflow: hidden;
+    padding-inline: var(--space-2);
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--radius-sm);
+    container-type: inline-size;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-muted);
+    -webkit-user-drag: none;
+    transition:
+      border-color var(--duration-press) var(--ease-hover),
+      color var(--duration-press) var(--ease-hover),
+      background-color var(--duration-press) var(--ease-hover);
+  }
+
+  .tl__idx {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-subtle);
+  }
+
+  /* Labels only where the clip is wide enough; screen readers always get them. */
+  @container (max-width: 84px) {
+    .tl__name {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  .tl__clip[aria-current="true"] {
+    border-color: var(--accent);
+    color: var(--ink);
+    background-color: var(--accent-subtle);
+  }
+
+  .tl__clip[aria-current="true"] .tl__idx {
+    color: var(--accent);
+  }
+
+  /* The hero clip holds the video: film-strip perforations top and bottom. */
+  .tl__clip--film::before,
+  .tl__clip--film::after {
+    content: "";
+    position: absolute;
+    left: var(--space-1);
+    right: var(--space-1);
+    height: 2px;
+    background: repeating-linear-gradient(to right, var(--hairline-strong) 0 3px, transparent 3px 7px);
+    pointer-events: none;
+  }
+
+  .tl__clip--film::before {
+    top: 2px;
+  }
+
+  .tl__clip--film::after {
+    bottom: 2px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tl__clip:hover {
+      border-color: var(--ink-subtle);
+      color: var(--ink);
+    }
+  }
+
+  /* Playhead and hover ghost are full-width layers moved by translateX(%),
+     so their left edge is the line. */
+  .tl__head,
+  .tl__ghost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .tl__head {
+    will-change: transform;
+  }
+
+  .tl__head::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: -4px;
+    bottom: 0;
+    width: 2px;
+    border-radius: 1px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .tl__head::after {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: -8px;
+    width: 10px;
+    height: 7px;
+    border-radius: 2px 2px 5px 5px;
+    background: var(--accent);
+  }
+
+  .tl__ghost {
+    opacity: 0;
+    transition: opacity var(--duration-tooltip) var(--ease-out);
+  }
+
+  .tl__ghost::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--ink-muted);
+  }
+
+  .tl[data-hover="true"] .tl__ghost {
+    opacity: 1;
+  }
+
+  .tl[data-scrubbing="true"] .tl__ghost {
+    opacity: 0;
+  }
+
+  /* The seek preview, hanging under the bar. */
+  .tl__tip {
+    position: absolute;
+    top: calc(100% + var(--space-3));
+    left: 0;
+    transform: translateX(-50%);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--hairline-strong);
+    background: var(--surface-overlay);
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+
+  .tl-readout {
+    flex: none;
+    align-items: baseline;
+    gap: var(--space-3);
+    min-width: 9.5rem;
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-muted);
+  }
+
+  .tl-readout__count {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  /* Phones and tablets: the timeline as a strip along the bar's bottom edge.
+     The box is taller than the strip so it is easy to grab. */
+  .tl-mini {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 0;
+    height: 18px;
+    touch-action: pan-y;
+  }
+
+  .tl-mini__track,
+  .tl-mini__played {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    height: 3px;
+  }
+
+  .tl-mini__seg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: var(--radius-full);
+    background: var(--hairline-strong);
+  }
+
+  .tl-mini__seg[data-active="true"] {
+    background: var(--ink-subtle);
+  }
+
+  .tl-mini__played {
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    opacity: 0.85;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+  }
+
+  .tl-mini__head {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .tl-mini__head::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    bottom: 3.5px;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
   .menu {
     position: fixed;
     inset: 0;
@@ -1087,42 +1361,73 @@
   .tag {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-3);
-    min-height: 52px;
-    padding: var(--space-3) var(--space-6);
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-full);
     border: 1px solid var(--hairline-strong);
     background: var(--surface-raised);
-    font-size: clamp(15px, 1.25vw, 19px);
+    font-size: 15px;
     font-weight: 600;
     letter-spacing: -0.01em;
-    color: var(--ink-muted);
+    color: var(--ink);
     transition:
       border-color var(--duration-press) var(--ease-hover),
-      color var(--duration-press) var(--ease-hover);
+      background-color var(--duration-press) var(--ease-hover);
   }
 
-  .tag[data-core="true"] {
-    color: var(--ink);
-    border-color: var(--border-strong);
-    background:
-      radial-gradient(100% 160% at 50% 0%, var(--glow-2), transparent 70%),
-      var(--surface-raised);
-    box-shadow: 0 0 40px -8px var(--glow-2);
+  /* Brand icons are monochrome SVGs used as masks, so they take the text
+     colour and can light up on hover. */
+  .tag__icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    mask: var(--icon) center / contain no-repeat;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    transition: background-color var(--duration-press) var(--ease-hover);
   }
 
-  .tag__dot {
-    width: var(--space-2);
-    height: var(--space-2);
-    border-radius: var(--radius-full);
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent-glow);
+  .skill-group {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .skill-group__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--ink-muted);
+  }
+
+  @media (min-width: 768px) {
+    .skill-group {
+      grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+      align-items: baseline;
+      gap: var(--space-6);
+    }
+
+    .skill-group__label {
+      padding-top: var(--space-3);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .skill-group {
+      grid-template-columns: minmax(0, 15.5rem) minmax(0, 1fr);
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {
     .tag:hover {
-      border-color: var(--ink);
-      color: var(--ink);
+      border-color: var(--accent);
+      background-color: var(--accent-subtle);
+    }
+
+    .tag:hover .tag__icon {
+      background-color: var(--accent);
     }
   }
 
@@ -1155,13 +1460,6 @@
 
   .icon-cloud__canvas:active {
     cursor: grabbing;
-  }
-
-  .icon-cloud-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
   }
 
   /* ───────────────────────────────────────────── Spotlight cards */

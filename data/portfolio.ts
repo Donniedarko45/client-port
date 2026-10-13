@@ -51,6 +51,11 @@ export type Service = {
   visual: ServiceVisual;
 };
 
+export type SkillGroup = {
+  label: string;
+  items: { name: string; icon?: string }[];
+};
+
 export type Certification = {
   title: string;
   issuer: string;
@@ -262,23 +267,47 @@ export const site = {
 
   skills: {
     heading: "Technologies I Work With",
-    /** Rendered first, with a brighter "core" treatment. */
-    top: ["Drupal", "WordPress", "Full-Stack Development", "Amazon Web Services (AWS)", "WooCommerce"],
-    additional: [
-      "OpenAI / LLMs",
-      "MCP",
-      "LangChain",
-      "n8n",
-      "Shopify",
-      "MEAN",
-      "MERN",
-      "PHP",
-      "React",
-      "ACF",
-      "REST APIs",
-      "Figma",
-      "Python/Django",
-    ],
+    /**
+     * Skills, grouped. `icon` is optional — a monochrome SVG in public/icons
+     * (see the icon cloud note below for where to get more).
+     */
+    groups: [
+      {
+        label: "CMS & Commerce",
+        items: [
+          { name: "Drupal", icon: "/icons/drupal.svg" },
+          { name: "WordPress", icon: "/icons/wordpress.svg" },
+          { name: "WooCommerce", icon: "/icons/woocommerce.svg" },
+          { name: "Shopify", icon: "/icons/shopify.svg" },
+          { name: "ACF" },
+        ],
+      },
+      {
+        label: "Full-Stack & Backend",
+        items: [
+          { name: "Full-Stack Development" },
+          { name: "PHP", icon: "/icons/php.svg" },
+          { name: "React", icon: "/icons/react.svg" },
+          { name: "MEAN" },
+          { name: "MERN" },
+          { name: "Python/Django", icon: "/icons/python.svg" },
+          { name: "REST APIs" },
+        ],
+      },
+      {
+        label: "AI & Automation",
+        items: [
+          { name: "OpenAI / LLMs" },
+          { name: "LangChain", icon: "/icons/langchain.svg" },
+          { name: "MCP", icon: "/icons/modelcontextprotocol.svg" },
+          { name: "n8n", icon: "/icons/n8n.svg" },
+        ],
+      },
+      {
+        label: "Cloud & Design",
+        items: [{ name: "Amazon Web Services (AWS)" }, { name: "Figma", icon: "/icons/figma.svg" }],
+      },
+    ] satisfies SkillGroup[],
     /**
      * The 3D icon cloud. Icons are monochrome SVGs in public/icons, from
      * Simple Icons — to add one, save https://cdn.simpleicons.org/<slug>/f5f5f5
