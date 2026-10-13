@@ -100,6 +100,12 @@ components/
   ui/                          PillButton, RotatingHeadline, SpotlightGrid, IconCloud, ServiceVisual, Marquee, …
 ```
 
+**Timeline navbar.** The navbar is the page drawn as an editing timeline. Each section is a clip, sized by its
+length on wide screens, and the hero clip has film perforations. A lime playhead and a "played" tint follow the scroll.
+Click a clip to jump to that section, hover the track for a seek preview, or drag anywhere along it to scrub the
+whole page, hero video included. On phones it becomes a thin strip on the bar's bottom edge: tap or swipe it
+sideways. Clip labels shorten to fit (set `short` on a nav item in the data file).
+
 **Hero scrub.** The hero is a tall scroll track with a sticky stage. ScrollTrigger maps scroll progress through the
 stage to `video.currentTime`, one seek at a time (each `seeked` chases the latest target), so the decoder never falls
 behind.

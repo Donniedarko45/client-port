@@ -10,6 +10,9 @@
 
 export type Link = { label: string; href: string };
 
+/** `short` is used on the timeline navbar when a section's clip is narrow. */
+export type NavItem = Link & { short?: string };
+
 export type VideoSource = { src: string; type: string };
 
 export type Experience = {
@@ -86,9 +89,9 @@ export const site = {
     { label: "Expertise", href: "#expertise" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
-    { label: "Certifications", href: "#certifications" },
+    { label: "Certifications", href: "#certifications", short: "Certs" },
     { label: "Contact", href: "#contact" },
-  ] satisfies Link[],
+  ] satisfies NavItem[],
 
   hero: {
     greeting: "Hi, I'm Sourabh",
@@ -353,11 +356,13 @@ export const site = {
         links: [{ label: "View project", href: "#" }],
       },
       {
-        title: "Custom WordPress Plugin Development",
-        description: "A bespoke plugin with advanced custom features, written in PHP.",
-        tech: ["WordPress", "PHP", "Plugin"],
-        image: { src: "/media/projects/wordpress-plugin.jpg", alt: "Custom WordPress plugin" },
-        links: [{ label: "View project", href: "#" }],
+        title: "MODULX",
+        client: "Genuine D.E.F.",
+        description:
+          "Product and quote site for a BIS-approved Diesel Exhaust Fluid manufacturer in Bhiwadi, Rajasthan, supplying everything from 10 litre buckets to 12 KL tankers across India.",
+        tech: ["Vite", "Tailwind", "Node.js"],
+        image: { src: "/media/projects/modulx-framed.jpg", alt: "MODULX Genuine D.E.F. website" },
+        links: [{ label: "Visit site", href: "https://modulx.in/" }],
       },
       {
         title: "Figma to WordPress E-Commerce Website",

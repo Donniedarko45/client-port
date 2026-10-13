@@ -397,7 +397,7 @@
   .tl {
     position: relative;
     height: 40px;
-    max-width: 780px;
+    max-width: 940px;
     margin-inline: auto;
     touch-action: pan-y;
     user-select: none;
@@ -439,6 +439,7 @@
     bottom: 0;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: var(--space-2);
     overflow: hidden;
     padding-inline: var(--space-2);
@@ -464,8 +465,23 @@
     color: var(--ink-subtle);
   }
 
-  /* Labels only where the clip is wide enough; screen readers always get them. */
-  @container (max-width: 84px) {
+  /* Clips adapt to their width: number + name, then name alone (short form
+     where there is one), then number alone. The full name always stays
+     available to screen readers. */
+  .tl__short {
+    display: none;
+  }
+
+  /* Thresholds are content widths (inside the clip's padding). */
+  @container (max-width: 100px) {
+    .tl__clip > * {
+      letter-spacing: 0.08em;
+    }
+
+    .tl__idx {
+      display: none;
+    }
+
     .tl__name {
       position: absolute;
       width: 1px;
@@ -473,6 +489,20 @@
       overflow: hidden;
       clip-path: inset(50%);
       white-space: nowrap;
+    }
+
+    .tl__short {
+      display: inline;
+    }
+  }
+
+  @container (max-width: 34px) {
+    .tl__idx {
+      display: inline;
+    }
+
+    .tl__short {
+      display: none;
     }
   }
 

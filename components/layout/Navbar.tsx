@@ -12,14 +12,12 @@ type Span = { start: number; end: number };
 /** `spans`: where each section sits in the page's scroll range. `layout`: where its clip is drawn. */
 type Timeline = { spans: Span[]; layout: Span[] };
 
-const sections = site.nav;
+const sections: { label: string; href: string; short?: string }[] = site.nav;
 const pad = (n: number) => String(n).padStart(2, "0");
 const total = pad(sections.length);
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
 
-/** Narrow sections still get a clip wide enough to read and hit. */
-const MIN_CLIP = 0.06;
 
 const evenly: Timeline = (() => {
   const spans = sections.map((_, i) => ({ start: i / sections.length, end: (i + 1) / sections.length }));
@@ -33,8 +31,11 @@ function measureTimeline(): Timeline {
     return el ? clamp01((el.getBoundingClientRect().top + window.scrollY) / max) : 0;
   });
   const spans = starts.map((start, i) => ({ start, end: i < starts.length - 1 ? starts[i + 1] : 1 }));
-  // Clip widths follow section lengths, with a floor, renormalised to fill the track.
-  const widths = spans.map((s) => Math.max(MIN_CLIP, s.end - s.start));
+  // Wide screens: clip widths lean towards true section lengths so the strip
+  // reads like real footage. Narrower: equal clips, so every label fits. The
+  // playhead maps clip by clip either way.
+  const lean = window.innerWidth >= 1440 ? 0.35 : 0;
+  const widths = spans.map((s) => (1 - lean) / spans.length + lean * (s.end - s.start));
   const sum = widths.reduce((a, b) => a + b, 0);
   let cursor = 0;
   const layout = widths.map((w) => {
@@ -271,6 +272,9 @@ export function Navbar() {
                         {pad(i + 1)}
                       </span>
                       <span className="tl__name">{item.label}</span>
+                      <span aria-hidden="true" className="tl__short">
+                        {item.short ?? item.label}
+                      </span>
                     </a>
                   </li>
                 ))}
@@ -282,7 +286,7 @@ export function Navbar() {
             </div>
           </nav>
 
-          <p aria-hidden="true" className="tl-readout ml-auto hidden sm:flex lg:ml-0">
+          <p aria-hidden="true" className="tl-readout ml-auto hidden sm:flex lg:hidden xl:ml-0 xl:flex">
             <span className="tl-readout__count">
               {pad(active + 1)}
               <span className="text-ink-subtle"> / {total}</span>
@@ -290,7 +294,7 @@ export function Navbar() {
             <span className="tl-readout__name">{sections[active].label}</span>
           </p>
 
-          <div className="ml-auto flex shrink-0 items-center gap-3 sm:ml-0">
+          <div className="ml-auto flex shrink-0 items-center gap-3 sm:ml-0 lg:ml-auto xl:ml-0">
             <PillButton href={site.resume} target="_blank" rel="noreferrer" size="sm" icon={<ArrowUpRight size={12} />}>
               Resume
             </PillButton>
