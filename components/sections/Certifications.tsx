@@ -27,8 +27,8 @@ export function Certifications() {
 
         <SpotlightGrid className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {certifications.items.map((cert) => (
-            <article key={cert.title} data-reveal data-spotlight className="spotlight-card flex min-h-[260px] flex-col justify-between gap-10 p-8">
-              <span className="text-ink-muted">
+            <article key={cert.title} data-reveal data-spotlight className="spotlight-card flex flex-col justify-between gap-8 p-6 sm:p-8 md:min-h-[240px]">
+              <span className="cert-icon">
                 <Award />
               </span>
               <div>
@@ -39,8 +39,8 @@ export function Certifications() {
             </article>
           ))}
 
-          <article data-reveal data-spotlight className="spotlight-card flex min-h-[260px] flex-col justify-between gap-10 p-8">
-            <span className="text-ink-muted">
+          <article data-reveal data-spotlight className="spotlight-card flex flex-col justify-between gap-8 p-6 sm:p-8 md:min-h-[240px]">
+            <span className="cert-icon">
               <Cap />
             </span>
             <div>
@@ -53,7 +53,7 @@ export function Certifications() {
           </article>
 
           <figure data-reveal data-spotlight className="spotlight-card flex flex-col gap-8 p-8 md:col-span-2 md:p-12 lg:col-span-3">
-            <div className="flex items-center gap-1 text-ink" role="img" aria-label={`${review.rating} out of 5 stars`}>
+            <div className="flex items-center gap-1 text-accent" role="img" aria-label={`${review.rating} out of 5 stars`}>
               {Array.from({ length: review.rating }, (_, i) => (
                 <Star key={i} />
               ))}

@@ -51,7 +51,7 @@ export function Navbar() {
     <>
       <header className="nav" data-scrolled={scrolled || open}>
         <div className="shell flex h-full items-center justify-between gap-6">
-          <a href="#home" className="text-[12px] font-bold uppercase tracking-[0.12em] text-ink">
+          <a href="#home" className="nav__brand text-[12px] font-bold uppercase tracking-[0.12em] text-ink">
             {site.name.first}
             <span className="hidden text-ink-subtle sm:inline"> {site.name.last}</span>
           </a>
@@ -115,9 +115,13 @@ export function Navbar() {
             ))}
           </ul>
         </nav>
-        <p className="menu__item type-eyebrow text-ink-muted" style={{ "--i": site.nav.length } as CSSProperties}>
+        <a
+          href={`mailto:${site.contact.email}`}
+          className="menu__item text-sm text-ink-muted"
+          style={{ "--i": site.nav.length } as CSSProperties}
+        >
           {site.contact.email}
-        </p>
+        </a>
       </div>
     </>
   );

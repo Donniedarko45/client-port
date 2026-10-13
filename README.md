@@ -122,8 +122,10 @@ sphere, cursor steering, drag and click-to-focus. State lives in refs and one lo
 no React re-renders per frame. The canvas renders at device resolution and stops drawing off screen.
 
 **Design tokens.** Colours, spacing, radii, easing curves and durations are CSS custom properties. Craft's tokens sit
-underneath; the monochrome palette and white "spotlight" glows are the theme layer at the top of `globals.css`. GSAP
-reads the easing and duration tokens at runtime.
+underneath; the **Electric Lime** palette (near-black, warm white, one `#c8ff3c` accent, lime-tinted spotlight glows) is
+the theme layer at the top of `globals.css`. To change the accent, edit `--accent` (and its `--accent-*` / `--glow-*`
+companions) there — every button, marker, glow and illustration highlight follows. GSAP reads the easing and duration
+tokens at runtime.
 
 **Motion and accessibility.** All motion is `transform` / `opacity` / `clip-path`. Hover effects only apply to devices
 with a real pointer. With `prefers-reduced-motion`, Lenis scrolls 1:1, reveals only fade, the headline crossfades

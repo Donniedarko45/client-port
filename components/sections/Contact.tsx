@@ -68,7 +68,7 @@ export function Contact() {
               </span>
             </p>
 
-            <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               {details.map((item) => (
                 <div key={item.label} data-reveal className="border-t border-hairline pt-4">
                   <dt className="type-eyebrow text-ink-subtle">{item.label}</dt>

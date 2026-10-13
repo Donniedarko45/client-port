@@ -38,7 +38,7 @@ function Layout() {
         <rect className="sv-dim" x="38" y="130" width="150" height="7" rx="3.5" />
         <rect className="sv-dim" x="38" y="143" width="118" height="7" rx="3.5" />
       </g>
-      <rect className="sv-ink sv-pop" style={at(0.55)} x="38" y="162" width="66" height="20" rx="10" />
+      <rect className="sv-accent sv-pop" style={at(0.55)} x="38" y="162" width="66" height="20" rx="10" />
       <g className="sv-pop" style={at(0.7)}>
         <rect className="sv-tile" x="236" y="76" width="126" height="106" rx="10" />
         <circle className="sv-dim" cx="334" cy="102" r="10" />
@@ -84,10 +84,10 @@ function Code() {
           />
         </g>
       ))}
-      <rect className="sv-ink sv-blink" x="96" y="191" width="7" height="12" rx="1" />
+      <rect className="sv-accent sv-blink" x="96" y="191" width="7" height="12" rx="1" />
       <g className="sv-pop" style={at(2.2)}>
         <rect className="sv-outline" x="282" y="54" width="80" height="24" rx="12" />
-        <circle className="sv-ink" cx="296" cy="66" r="3" />
+        <circle className="sv-accent" cx="296" cy="66" r="3" />
         <text className="sv-tag" x="306" y="70">
           200 OK
         </text>
@@ -103,7 +103,7 @@ function Performance() {
       <rect className="sv-panel" x="20" y="14" width="360" height="222" rx="14" />
       <circle className="sv-track" cx="124" cy="126" r="62" strokeWidth="10" />
       <circle
-        className="sv-stroke sv-draw"
+        className="sv-accent-stroke sv-draw"
         cx="124"
         cy="126"
         r="62"
@@ -154,7 +154,7 @@ function Pen() {
       </g>
       <circle className="sv-ring sv-pop" style={at(1.8)} cx="292" cy="170" r="30" />
       <path
-        className="sv-stroke sv-draw"
+        className="sv-accent-stroke sv-draw"
         d="M70 190 C 120 40, 190 40, 214 124 S 300 214, 336 72"
         strokeWidth="3"
         strokeLinecap="round"
@@ -207,8 +207,8 @@ function Timeline() {
         <rect key={x} className="sv-dim" x={x} y={208 - h / 2} width="3" height={h} rx="1.5" />
       ))}
       <g className="sv-playhead">
-        <path className="sv-ink" d="M24 100 h12 v6 l-6 6 l-6 -6 z" />
-        <line className="sv-stroke" x1="30" y1="106" x2="30" y2="226" strokeWidth="1.5" />
+        <path className="sv-accent" d="M24 100 h12 v6 l-6 6 l-6 -6 z" />
+        <line className="sv-accent-stroke" x1="30" y1="106" x2="30" y2="226" strokeWidth="1.5" />
       </g>
     </Frame>
   );
@@ -220,17 +220,17 @@ function Backup() {
       {[70, 110, 150].map((y, i) => (
         <g key={y}>
           <rect className="sv-panel" x="40" y={y} width="112" height="32" rx="8" />
-          <circle className="sv-ink sv-led" style={at(i * 0.4)} cx="56" cy={y + 16} r="3" />
+          <circle className="sv-accent sv-led" style={at(i * 0.4)} cx="56" cy={y + 16} r="3" />
           <rect className="sv-dim" x="70" y={y + 13} width="62" height="6" rx="3" />
         </g>
       ))}
       <line className="sv-line" x1="162" y1="126" x2="252" y2="126" strokeDasharray="4 6" />
       {[0, 0.8, 1.6].map((d) => (
-        <circle key={d} className="sv-ink sv-packet" style={at(d, { "--dx": "88px", "--dy": "0px" })} cx="162" cy="126" r="4" />
+        <circle key={d} className="sv-accent sv-packet" style={at(d, { "--dx": "88px", "--dy": "0px" })} cx="162" cy="126" r="4" />
       ))}
       <circle className="sv-orbit sv-spin" cx="306" cy="126" r="52" />
       <circle className="sv-tile" cx="306" cy="126" r="36" />
-      <path className="sv-stroke sv-draw" style={at(0.4)} d="M290 126 l10 10 l20 -22" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
+      <path className="sv-accent-stroke sv-draw" style={at(0.4)} d="M290 126 l10 10 l20 -22" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
       <text className="sv-label" x="306" y="204" textAnchor="middle" letterSpacing="2">
         BACKED UP
       </text>
@@ -257,7 +257,7 @@ function Network() {
       {[0, 2, 4].map((k) => (
         <circle
           key={k}
-          className="sv-ink sv-packet"
+          className="sv-accent sv-packet"
           style={at(k * 0.4, { "--dx": `${nodes[k].x - 200}px`, "--dy": `${nodes[k].y - 125}px` })}
           cx="200"
           cy="125"
@@ -266,7 +266,7 @@ function Network() {
       ))}
       <circle className="sv-wave" cx="200" cy="125" r="16" />
       <circle className="sv-wave" style={at(1.2)} cx="200" cy="125" r="16" />
-      <circle className="sv-ink" cx="200" cy="125" r="16" />
+      <circle className="sv-accent" cx="200" cy="125" r="16" />
       <circle className="sv-hole" cx="200" cy="125" r="6" />
       {nodes.map((n, k) => (
         <circle key={k} className="sv-node sv-pulse" style={at(k * 0.4)} cx={n.x} cy={n.y} r="9" />
@@ -287,7 +287,7 @@ function Growth() {
       {heights.map((h, i) => (
         <rect
           key={i}
-          className={`${i === heights.length - 1 ? "sv-ink" : "sv-dim"} sv-grow-y`}
+          className={`${i === heights.length - 1 ? "sv-accent" : "sv-dim"} sv-grow-y`}
           style={at(i * 0.12)}
           x={52 + i * 44}
           y={214 - h}
@@ -297,7 +297,7 @@ function Growth() {
         />
       ))}
       <polyline
-        className="sv-stroke sv-draw"
+        className="sv-accent-stroke sv-draw"
         style={at(1)}
         points={tops.map((p) => `${p.x},${p.y}`).join(" ")}
         strokeWidth="2.5"
@@ -306,7 +306,7 @@ function Growth() {
         pathLength={1}
       />
       <circle className="sv-wave" style={at(1.8)} cx={tops[6].x} cy={tops[6].y} r="6" />
-      <circle className="sv-ink sv-pop" style={at(1.8)} cx={tops[6].x} cy={tops[6].y} r="6" />
+      <circle className="sv-accent sv-pop" style={at(1.8)} cx={tops[6].x} cy={tops[6].y} r="6" />
       <g className="sv-pop" style={at(2)}>
         <rect className="sv-outline" x="40" y="24" width="40" height="24" rx="12" />
         <path className="sv-stroke" d="M54 42 l12 -12 M58 30 h8 v8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -333,10 +333,10 @@ function Search() {
       ))}
       <g className="sv-rank-up">
         <rect className="sv-panel sv-panel--lit" x="40" y="70" width="320" height="34" rx="10" />
-        <circle className="sv-ink" cx="58" cy="87" r="6" />
+        <circle className="sv-accent" cx="58" cy="87" r="6" />
         <rect className="sv-ink" x="72" y="80" width="150" height="7" rx="3.5" />
         <rect className="sv-dim" x="72" y="92" width="96" height="5" rx="2.5" />
-        <text className="sv-tag sv-fade" style={at(2.8)} x="346" y="91" textAnchor="end">
+        <text className="sv-tag sv-accent sv-fade" style={at(2.8)} x="346" y="91" textAnchor="end">
           #1
         </text>
       </g>
@@ -347,7 +347,7 @@ function Search() {
 function Support() {
   return (
     <Frame>
-      <circle className="sv-ink" cx="34" cy="26" r="3" />
+      <circle className="sv-accent" cx="34" cy="26" r="3" />
       <text className="sv-label" x="44" y="29" letterSpacing="2">
         500+ TICKETS RESOLVED
       </text>
@@ -374,7 +374,7 @@ function Support() {
       </g>
       <g className="sv-pop" style={at(3)}>
         <rect className="sv-outline" x="140" y="200" width="120" height="24" rx="12" />
-        <path className="sv-stroke" d="M156 212 l4 4 l8 -8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path className="sv-accent-stroke" d="M156 212 l4 4 l8 -8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <text className="sv-tag" x="176" y="216">
           RESOLVED
         </text>

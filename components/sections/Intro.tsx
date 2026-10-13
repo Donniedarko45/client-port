@@ -75,20 +75,29 @@ export function Intro() {
       const frame = mover.firstElementChild as HTMLElement;
       const startRadius = parseFloat(getComputedStyle(frame).borderTopLeftRadius);
 
-      // The hero copy dims as the stage releases.
+      // The hero copy dims as the stage releases. On phones the portrait
+      // slides down through it, so it has to be gone sooner.
       gsap.to(root.querySelectorAll("[data-hero-text]"), {
         opacity: 0,
         y: reduced ? 0 : -m.travel * 4,
         ease: "none",
-        scrollTrigger: { trigger: section, start: "bottom bottom", end: "bottom 45%", scrub: true },
+        scrollTrigger: {
+          trigger: section,
+          start: "bottom bottom",
+          end: () => (window.innerWidth < 900 ? "bottom 82%" : "bottom 45%"),
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
       });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: about,
           start: "top bottom",
-          endTrigger: slot,
-          end: "center 55%",
+          // Land by the time About reaches the top, which is where the nav
+          // link takes you — on short screens the slot's centre never gets
+          // high enough to finish a centre-based landing.
+          end: "top 12%",
           scrub: true,
           invalidateOnRefresh: true,
         },

@@ -172,6 +172,10 @@ export function Hero() {
           </div>
 
           <div className="hero__aside" data-hero-text>
+            <p data-hero-in className="status-badge type-eyebrow mb-6 hidden min-[900px]:inline-flex">
+              <span className="status-badge__dot" aria-hidden="true" />
+              {site.about.status.label}
+            </p>
             <p data-hero-in className="type-body">
               {hero.tagline.map((line, i) => (
                 <span key={line} className={i === 0 ? "block text-ink" : "block"}>
@@ -183,7 +187,8 @@ export function Hero() {
 
           <div className="hero__footer" data-hero-text>
             <div data-hero-in className="scrub type-eyebrow">
-              <span>{hero.scrollHint}</span>
+              <span className="hidden sm:inline">{hero.scrollHint}</span>
+              <span className="sm:hidden">{hero.scrollHintShort}</span>
               <span className="scrub__track hidden sm:block" aria-hidden="true">
                 <span ref={fillRef} className="scrub__fill" />
               </span>

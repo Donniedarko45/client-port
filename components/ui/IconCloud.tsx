@@ -111,8 +111,8 @@ export function IconCloud({ icons, className }: { icons: readonly CloudIcon[]; c
     };
 
     const layout = () => {
-      const radius = size * 0.36;
-      const iconSize = size * 0.11;
+      const radius = size * 0.4;
+      const iconSize = size * 0.115;
       return points
         .map((p, i) => {
           const r = project(p);
@@ -256,15 +256,16 @@ export function IconCloud({ icons, className }: { icons: readonly CloudIcon[]; c
     };
   }, [icons]);
 
-
   return (
-    <div ref={wrapRef} className={["icon-cloud", className].filter(Boolean).join(" ")}>
-      <canvas
-        ref={canvasRef}
-        className="icon-cloud__canvas"
-        role="img"
-        aria-label={`Technologies: ${icons.map((icon) => icon.label).join(", ")}`}
-      />
+    <div className={["icon-cloud-wrap", className].filter(Boolean).join(" ")}>
+      <div ref={wrapRef} className="icon-cloud">
+        <canvas
+          ref={canvasRef}
+          className="icon-cloud__canvas"
+          role="img"
+          aria-label={`Technologies: ${icons.map((icon) => icon.label).join(", ")}`}
+        />
+      </div>
       <button
         type="button"
         onClick={() => setChoice(!paused)}

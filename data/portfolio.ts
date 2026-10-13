@@ -107,6 +107,8 @@ export const site = {
       scrubScreens: 1.5,
     },
     scrollHint: "Scroll to scrub timeline",
+    /** Used on phones, where the full hint would wrap. */
+    scrollHintShort: "Scroll to scrub",
     cta: { label: "Let's Talk", href: "#contact" },
   },
 
@@ -132,7 +134,7 @@ export const site = {
   },
 
   expertise: {
-    heading: "7+ Years in Design and Development",
+    heading: "Experience & Expertise",
     /** Scrolls in the marquee band. */
     headlineRoles: [
       "OpenAI, LLM & Chat Agent Expert",
@@ -310,7 +312,7 @@ export const site = {
         title: "101 Blockchains",
         description: "PSD to HTML to WordPress — the full front-end and WordPress build.",
         tech: ["PSD", "HTML", "WordPress"],
-        image: { src: "/media/projects/101-blockchains-site.jpg", alt: "101 Blockchains website" },
+        image: { src: "/media/projects/101-blockchains-framed.jpg", alt: "101 Blockchains website" },
         links: [{ label: "View project", href: "#" }],
       },
       {
@@ -333,7 +335,7 @@ export const site = {
         client: "Kleenly",
         description: "An end-to-end store for Kleenly, from Figma design to WordPress.",
         tech: ["Figma", "WordPress", "E-Commerce"],
-        image: { src: "/media/projects/kleenly-site.jpg", alt: "Kleenly e-commerce store" },
+        image: { src: "/media/projects/kleenly-framed.jpg", alt: "Kleenly e-commerce store" },
         links: [{ label: "View project", href: "#" }],
       },
       {

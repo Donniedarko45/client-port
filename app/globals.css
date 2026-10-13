@@ -18,6 +18,7 @@
   --color-hairline-strong: var(--hairline-strong);
   --color-border-strong: var(--border-strong);
   --color-success: var(--success);
+  --color-accent: var(--accent);
 }
 
 /* ───────────────────────────────────────────── Theme: monochrome over Craft */
@@ -41,36 +42,39 @@
 }
 
 :root[data-theme="dark"] {
+  /* Electric Lime: near-black, a faintly warm white, one acid-lime accent. */
   --surface: #0a0a0a;
-  --surface-raised: #111111;
+  --surface-raised: #121312;
   --surface-sunken: #060606;
-  --surface-overlay: #141414;
-  --surface-inverse: #f5f5f5;
-  --scrim: rgb(5 5 5 / 0.92);
-  --ink: #f5f5f5;
-  --ink-muted: #a3a3a3;
-  --ink-subtle: #737373;
+  --surface-overlay: #161716;
+  --surface-inverse: #f5f5f2;
+  --scrim: rgb(6 6 6 / 0.96);
+  --ink: #f5f5f2;
+  --ink-muted: #a8aba3;
+  --ink-subtle: #878a82;
   --ink-inverse: #0a0a0a;
-  --border: #1f1f1f;
-  --border-strong: #666666;
-  --accent: #f5f5f5;
-  --accent-hover: #ffffff;
-  --accent-subtle: #1a1a1a;
-  --accent-ink: #ffffff;
+  --border: #1f201e;
+  --border-strong: #6b6e67;
+  --accent: #c8ff3c;
+  --accent-hover: #d7ff6e;
+  --accent-subtle: rgb(200 255 60 / 0.08);
+  --accent-ink: #c8ff3c;
   --on-accent: #0a0a0a;
-  --focus: #f5f5f5;
-  /* The one colour on the page: the "open to opportunities" signal. */
-  --success: #4ade80;
-  --success-glow: rgb(74 222 128 / 0.45);
+  --accent-ring: rgb(200 255 60 / 0.18);
+  --accent-glow: rgb(200 255 60 / 0.4);
+  --focus: #c8ff3c;
+  /* "Open to opportunities" speaks in the accent rather than a second green. */
+  --success: #c8ff3c;
+  --success-glow: rgb(200 255 60 / 0.5);
 
-  /* Light, not colour: white spotlights at three intensities. */
-  --glow-1: rgb(255 255 255 / 0.16);
-  --glow-2: rgb(255 255 255 / 0.075);
-  --glow-3: rgb(255 255 255 / 0.035);
-  --glow-edge: rgb(255 255 255 / 0.55);
+  /* Spotlights, faintly lime-tinted, at three intensities. */
+  --glow-1: rgb(216 255 138 / 0.18);
+  --glow-2: rgb(216 255 138 / 0.085);
+  --glow-3: rgb(216 255 138 / 0.04);
+  --glow-edge: rgb(200 255 60 / 0.8);
   --hairline: rgb(255 255 255 / 0.08);
   --hairline-strong: rgb(255 255 255 / 0.16);
-  --veil: rgb(10 10 10 / 0.72);
+  --veil: rgb(10 10 10 / 0.84);
   --shade: rgb(0 0 0 / 0.55);
 }
 
@@ -93,13 +97,18 @@
   }
 
   ::selection {
-    background: var(--ink);
-    color: var(--ink-inverse);
+    background: var(--accent);
+    color: var(--on-accent);
   }
 
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 3px;
+  }
+
+  a:not(.pill):focus-visible,
+  button:not(.pill):focus-visible {
+    border-radius: var(--radius-sm);
   }
 
   section:focus {
@@ -286,8 +295,8 @@
   }
 
   .pill[data-variant="solid"] {
-    background: var(--ink);
-    color: var(--ink-inverse);
+    background: var(--accent);
+    color: var(--on-accent);
   }
 
   .pill__icon {
@@ -317,9 +326,10 @@
     }
 
     .pill[data-variant="solid"]:hover:not(:disabled) {
+      background: var(--accent-hover);
       box-shadow:
-        0 0 0 4px var(--glow-2),
-        0 0 40px var(--glow-1);
+        0 0 0 4px var(--accent-ring),
+        0 0 40px var(--accent-glow);
     }
 
     .pill:hover .pill__icon {
@@ -367,7 +377,7 @@
     height: var(--space-1);
     margin-left: calc(var(--space-1) / -2);
     border-radius: var(--radius-full);
-    background: var(--ink);
+    background: var(--accent);
     opacity: 0;
     transition: opacity var(--duration-menu) var(--ease-out);
   }
@@ -390,9 +400,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: calc(var(--nav-h) + var(--space-8)) var(--gutter) var(--space-8);
-    background: var(--scrim);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--surface);
     opacity: 0;
     visibility: hidden;
     transition:
@@ -558,7 +566,7 @@
   .scrub__fill {
     position: absolute;
     inset: 0;
-    background: var(--ink);
+    background: var(--accent);
     transform-origin: 0 50%;
     transform: scaleX(0);
   }
@@ -576,7 +584,14 @@
     font-weight: 900;
     letter-spacing: -0.055em;
     text-transform: uppercase;
-    mix-blend-mode: difference;
+    /* A page-coloured keyline keeps the type legible where it crosses the photo. */
+    -webkit-text-stroke: 0.07em var(--surface);
+    paint-order: stroke fill;
+  }
+
+  /* The second line of every phrase carries the accent. */
+  .rotator__mask:last-child {
+    color: var(--accent);
   }
 
   .rotator__mask {
@@ -645,6 +660,43 @@
     }
   }
 
+  /* Mid-size screens: the side column is too narrow for the tagline, so it
+     sits under the headline, left of the portrait. */
+  @media (min-width: 900px) and (max-width: 1199px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        "intro portrait"
+        "aside portrait"
+        "footer footer";
+    }
+
+    .hero__intro {
+      grid-area: intro;
+      padding-bottom: var(--space-6);
+    }
+
+    .hero__portrait {
+      grid-area: portrait;
+    }
+
+    .hero__aside {
+      grid-area: aside;
+      justify-self: start;
+      max-width: 44ch;
+      padding-bottom: var(--space-4);
+    }
+
+    .hero__footer {
+      grid-area: footer;
+    }
+
+    .portrait-anchor {
+      height: min(58svh, 640px);
+    }
+  }
+
   /* ───────────────────────────────────────────── About */
 
   .about {
@@ -699,13 +751,23 @@
       0 0 60px -12px var(--glow-2);
   }
 
-  .glow-pill__orb {
+  .glow-pill__ring {
     flex: none;
+    display: grid;
+    place-items: center;
     width: var(--space-12);
     height: var(--space-12);
     border-radius: var(--radius-full);
-    background: radial-gradient(circle at 35% 30%, var(--ink), var(--ink-subtle) 45%, var(--surface-raised) 100%);
-    box-shadow: 0 0 32px var(--glow-1);
+    border: 1px solid var(--hairline-strong);
+    background: radial-gradient(closest-side, var(--accent-subtle), transparent);
+  }
+
+  .glow-pill__dot {
+    width: var(--space-3);
+    height: var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
   }
 
   /* ───────────────────────────────────────────── Marquee */
@@ -747,7 +809,7 @@
     width: var(--space-3);
     height: var(--space-3);
     border-radius: var(--radius-full);
-    background: var(--ink-subtle);
+    background: var(--accent);
   }
 
   @keyframes marquee {
@@ -782,7 +844,7 @@
 
   .services__count {
     margin-left: 0.15em;
-    font-size: 0.32em;
+    font-size: max(12px, 0.32em);
     font-weight: 600;
     letter-spacing: 0;
     vertical-align: super;
@@ -831,7 +893,7 @@
   }
 
   .services__arrow {
-    color: var(--ink);
+    color: var(--accent);
     opacity: 0;
     transform: translate(-25%, 25%);
     transition:
@@ -840,7 +902,7 @@
   }
 
   .services__row[data-active="true"] .services__index {
-    color: var(--ink);
+    color: var(--accent);
   }
 
   .services__row[data-active="true"] .services__title {
@@ -989,7 +1051,7 @@
   .sv-dashed { fill: none; stroke: var(--hairline-strong); stroke-dasharray: 4 4; }
   .sv-handle { fill: var(--surface); stroke: var(--ink); stroke-width: 1.5; }
   .sv-node { fill: var(--surface-raised); stroke: var(--ink); stroke-width: 1.5; }
-  .sv-wave { fill: none; stroke: var(--ink); opacity: 0; }
+  .sv-wave { fill: none; stroke: var(--accent); opacity: 0; }
   .sv-packet { opacity: 0; }
   .sv-draw { stroke-dasharray: 1; }
   .sv-grow-x { transform-origin: 0 50%; }
@@ -1007,6 +1069,10 @@
     font-weight: 750;
     letter-spacing: 0.08em;
   }
+
+  /* One lime highlight per illustration. Declared after .sv-tag so it wins. */
+  .sv-accent { fill: var(--accent); }
+  .sv-accent-stroke { fill: none; stroke: var(--accent); }
 
   .sv-score {
     fill: var(--ink);
@@ -1049,8 +1115,8 @@
     width: var(--space-2);
     height: var(--space-2);
     border-radius: var(--radius-full);
-    background: var(--ink);
-    box-shadow: 0 0 10px var(--glow-edge);
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -1091,10 +1157,11 @@
     cursor: grabbing;
   }
 
-  .icon-cloud__toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
+  .icon-cloud-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
   }
 
   /* ───────────────────────────────────────────── Spotlight cards */
@@ -1211,6 +1278,11 @@
     font-weight: 500;
     letter-spacing: normal;
     text-transform: none;
+    overflow-wrap: anywhere;
+  }
+
+  .link-arrow {
+    transition: color var(--duration-press) var(--ease-hover);
   }
 
   .link-arrow svg {
@@ -1218,8 +1290,47 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
+    .link-arrow:hover {
+      color: var(--accent);
+    }
+
     .link-arrow:hover svg {
       transform: translate(2px, -2px);
+    }
+  }
+
+  .cert-icon {
+    display: grid;
+    place-items: center;
+    width: var(--space-12);
+    height: var(--space-12);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--hairline-strong);
+    background: radial-gradient(closest-side, var(--accent-subtle), transparent);
+    color: var(--accent);
+  }
+
+  /* Touch screens: every control gets a 44px target, whatever its drawn size. */
+  @media (pointer: coarse) {
+    .pill[data-size="sm"] {
+      height: 44px;
+    }
+
+    .link-arrow,
+    .nav__link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+
+    /* Inline-block, not flex: flex would swallow the space between names. */
+    .nav__brand {
+      display: inline-block;
+      padding-block: 14px;
+    }
+
+    .nav__link {
+      padding-inline: var(--space-2);
     }
   }
 
@@ -1255,7 +1366,7 @@
 
   .field__control:focus-visible {
     outline: none;
-    border-color: var(--ink);
+    border-color: var(--accent);
     box-shadow:
       0 0 0 4px var(--glow-2),
       0 0 40px -8px var(--glow-1);
@@ -1272,7 +1383,9 @@
 
   textarea.field__control {
     min-height: 168px;
-    resize: vertical;
+    max-height: 420px;
+    field-sizing: content;
+    resize: none;
   }
 
   .glow-name {
@@ -1298,7 +1411,7 @@
     position: absolute;
     inset: 0;
     display: block;
-    color: var(--ink);
+    color: var(--accent);
     filter: blur(36px);
     opacity: 0.45;
     pointer-events: none;

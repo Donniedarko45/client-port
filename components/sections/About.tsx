@@ -52,8 +52,8 @@ export function About() {
               {about.bio}
             </p>
 
-            <dl data-reveal className="grid grid-cols-2 gap-6 border-t border-hairline pt-6 sm:grid-cols-3">
-              <div className="col-span-2 sm:col-span-1">
+            <dl data-reveal className="grid grid-cols-2 gap-6 border-t border-hairline pt-6 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
+              <div className="col-span-2 sm:col-span-1 md:col-span-2 lg:col-span-1">
                 <dt className="type-eyebrow text-ink-subtle">Experience</dt>
                 <dd className="mt-2 flex items-baseline gap-2">
                   <span className="text-4xl font-extrabold tracking-tight">{about.stat.value}</span>
@@ -77,10 +77,12 @@ export function About() {
           </div>
         </div>
 
-        <ul className="mt-16 grid gap-4 md:grid-cols-3">
+        <ul className="mt-16 grid gap-4 lg:grid-cols-3">
           {about.highlights.map((item) => (
             <li key={item.label} data-reveal className="glow-pill">
-              <span className="glow-pill__orb" aria-hidden="true" />
+              <span className="glow-pill__ring" aria-hidden="true">
+                <span className="glow-pill__dot" />
+              </span>
               <span className="flex flex-col gap-1">
                 <span className="type-h3">{item.label}</span>
                 <span className="text-sm text-ink-muted">{item.detail}</span>

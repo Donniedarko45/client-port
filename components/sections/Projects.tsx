@@ -11,6 +11,16 @@ import { SpotlightGrid } from "@/components/ui/SpotlightGrid";
 
 const { projects } = site;
 
+/** Keeps hyphenated words such as "E-Commerce" from splitting across lines. */
+function keepHyphenated(text: string) {
+  return text.split(" ").map((word, i) => (
+    <span key={i}>
+      {i > 0 && " "}
+      {word.includes("-") ? <span className="whitespace-nowrap">{word}</span> : word}
+    </span>
+  ));
+}
+
 function ProjectCard({ project, index, featured }: { project: Project; index: number; featured: boolean }) {
   return (
     <article
@@ -39,7 +49,7 @@ function ProjectCard({ project, index, featured }: { project: Project; index: nu
             {project.client && <span>{project.client}</span>}
           </p>
           <h3 className={featured ? "type-h2 type-h2--compact" : "type-h3 text-[clamp(24px,2.4vw,36px)]"}>
-            {project.title}
+            {keepHyphenated(project.title)}
           </h3>
           <p className="type-body max-w-[52ch]">{project.description}</p>
         </div>
